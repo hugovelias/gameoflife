@@ -17,7 +17,7 @@ class Cell
   # Any dead cell with three live neighbours becomes a live cell.
   # All other live cells die in the next generation. Similarly, all other dead cells stay dead.
   def dead_or_alive?(status_for_neighbors = [])
-    neighbors_alive = status_for_neighbors.select {|status| status == true}.count
+    neighbors_alive = status_for_neighbors.flatten.select {|status| status == true}.count
 
     if @alive && (neighbors_alive >= MIN_NEIGHBOURS_TO_BE_ALIVE && neighbors_alive <= MAX_NEIGHBOURS_TO_BE_ALIVE)
       true
