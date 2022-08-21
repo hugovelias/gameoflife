@@ -1,19 +1,22 @@
 # Project: Simple Game of Life automaton in ruby
 # Author: Hugo V. Elías (c0d34fn@gmail.com)
 
-require "./cell.rb"
+require "./lib/cell.rb"
+require "byebug"
 
 class Grid
-  attr_reader :cells, :status
+  attr_reader :cells, :status, :generation, :speed
 
-  def initialize(size: 16)
+  def initialize(size: , speed: )
     @size = size
     @cells, @status = [], []
+    @speed = speed
+    @generation = 0
 
-    self.build()
+    build
   end
 
-  def iterate()
+  def iterate
     @cells.each do |row|
       row.each do |cell|
         # p status_for_neighbors(cell.position)
@@ -22,6 +25,7 @@ class Grid
       end
     end
 
+    update_generation
     update!
   end
 
@@ -47,7 +51,7 @@ class Grid
 
   alias :sfn :status_for_neighbor
 
-  def build()
+  def build
     @size.times.each do |y|
       @cells << Array.new()
       @size.times.each do |x|
@@ -66,5 +70,10 @@ class Grid
     end
 
     @status = []
+  end
+
+  def update_generation
+    @generation += 1
+    sleep(@speed)
   end
 end
